@@ -19,31 +19,57 @@ describe("Manager", function () {
     expect(T).to.be.an.object()
   })
 
-  describe("#post", function () {
-    it("should post", function () {
+  describe("#get", function () {
+    it("should get", function () {
       stub
-        .post("/httpAuth/app/rest/builds/id:foo")
-        .query(true)
-        .reply(200, "response")
-      return T.post({url: "httpAuth/app/rest/builds/id:foo"})
-        .must.resolve.to.eql("response")
+        .get("/foo")
+        .reply(200, "bar")
+      return T.get({url: "foo"})
+        .must.resolve.to.eql("bar")
     })
 
     it("should reject on error", function () {
       stub
-        .post("/httpAuth/app/rest/builds/id:foo")
-        .query(true)
+        .get("/foo")
         .replyWithError(new Error("error"))
-      return T.post({url: "httpAuth/app/rest/builds/id:foo"})
+      return T.get({url: "foo"})
         .must.reject.to.error()
     })
 
     it("should reject 404", function () {
       stub
-        .post("/httpAuth/app/rest/builds/id:foo")
+        .get("/foo")
+        .reply(404)
+      return T.get({url: "foo"})
+        .must.reject.to.error()
+    })
+  })
+
+  describe("#post", function () {
+    it("should post", function () {
+      stub
+        .post("/foo")
+        .query(true)
+        .reply(200, "bar")
+      return T.post({url: "foo"})
+        .must.resolve.to.eql("bar")
+    })
+
+    it("should reject on error", function () {
+      stub
+        .post("/foo")
+        .query(true)
+        .replyWithError(new Error("error"))
+      return T.post({url: "foo"})
+        .must.reject.to.error()
+    })
+
+    it("should reject 404", function () {
+      stub
+        .post("/foo")
         .query(true)
         .reply(404)
-      return T.post({url: "httpAuth/app/rest/builds/id:foo"})
+      return T.post({url: "foo"})
         .must.reject.to.error()
     })
   })
