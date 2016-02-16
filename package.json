@@ -7,5 +7,19 @@
     "test": "mocha",
     "coverage": "istanbul cover --dir ./.coverage _mocha --include-all-sources -- -R spec",
     "coveralls": "istanbul cover --dir ./.coverage _mocha --include-all-sources --report lcovonly -- -R spec && cat ./.coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./.coverage"
+  },
+  "dependencies": {
+    "canned-teamcity-responses.js": "e-conomic/canned-teamcity-responses.js",
+    "lodash": "^4.4.0",
+    "q": "^1.4.1",
+    "request": "^2.69.0",
+    "teamcity-properties.js": "e-conomic/teamcity-properties.js"
+  },
+  "devDependencies": {
+    "istanbul": "^0.4.2",
+    "mocha": "^2.4.5",
+    "mocha-lcov-reporter": "^1.0.0",
+    "must": "^0.13.1",
+    "nock": "^7.2.1"
   }
 }
