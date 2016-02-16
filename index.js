@@ -38,7 +38,10 @@ Manager.prototype.post = function (payload) {
   })
 }
 
-var extensions = [{prefix: "lookup", module: require("./lib/lookup")}]
+var extensions = [
+  {prefix: "cancel", module: require("./lib/cancel")},
+  {prefix: "lookup", module: require("./lib/lookup")}
+]
 extensions.forEach(function (data) {
   Object.defineProperty(Manager.prototype, data.prefix, {
     get: function () {
