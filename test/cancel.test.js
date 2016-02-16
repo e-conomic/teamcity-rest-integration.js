@@ -46,5 +46,3 @@ describe("teamcity-rest-integration.js#cancel", function () {
     })
   })
 })
-
-
