@@ -7,7 +7,7 @@ var tri = require("../")
 
 var ROOTURL = "https://teamcity.url"
 
-describe("teamcity-rest-integration.js", function () {
+describe("teamcity-rest-integration.js#lookup", function () {
   var T, stub, done
   before(function () { nock.disableNetConnect() })
   after(function () { nock.enableNetConnect() })
@@ -17,7 +17,7 @@ describe("teamcity-rest-integration.js", function () {
     T = new tri({url: ROOTURL})
   })
 
-  describe("#lookup.buildConfiguration", function () {
+  describe("#buildConfiguration", function () {
     it("should reject if build doesn't exist", function () {
       stub
         .get("/httpAuth/app/rest/buildTypes/id:foo")
@@ -37,7 +37,7 @@ describe("teamcity-rest-integration.js", function () {
     })
   })
 
-  describe("#lookup.runningBuilds", function () {
+  describe("#runningBuilds", function () {
     it("should be empty if no builds are running", function () {
       stub
         .get("/httpAuth/app/rest/builds")
@@ -85,7 +85,7 @@ describe("teamcity-rest-integration.js", function () {
     })
   })
 
-  describe("#lookup.queuedBuilds", function () {
+  describe("#queuedBuilds", function () {
     it("should be empty if no builds are queued", function () {
       stub
         .get("/httpAuth/app/rest/buildQueue")
