@@ -2,7 +2,6 @@
 require("must")
 var tc = require("canned-teamcity-responses.js")
 var nock = require("nock")
-var rewire = require("rewire")
 var tri = require("../")
 
 var ROOTURL = "https://teamcity.url"
