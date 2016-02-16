@@ -3,7 +3,7 @@ var expect = require("must")
 var rewire = require("rewire")
 var tri = require("../")
 
-describe("teamcity-rest-integration.js", function () {
+describe("Manager", function () {
   it("should be configurable via options", function () {
     var options = {
       user: "foo",
