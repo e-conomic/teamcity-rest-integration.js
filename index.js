@@ -38,6 +38,22 @@ Manager.prototype.post = function (payload) {
   })
 }
 
+var extensions = [{prefix: "lookup", module: require("./lib/lookup")}]
+extensions.forEach(function (data) {
+  Object.defineProperty(Manager.prototype, data.prefix, {
+    get: function () {
+      var self = this
+      var f = {}
+      for (var fName in data.module) {
+        f[fName] = data.module[fName].bind(self)
+      }
+      return f
+    },
+    enumerable: false,
+    configurable: true
+  })
+})
+
 var requester = function (baseUrl, user, password) {
   var uri = url.parse(baseUrl)
   uri.auth = util.format("%s:%s", user, password)
