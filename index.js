@@ -18,7 +18,7 @@ Manager.prototype.get = function (href) {
   var self = this
   return Q.Promise(function (resolve, reject) {
     self.requester.get(href, function (err, res, body) {
-      if (!err && res.statusCode != 200) err = body
+      if (!err && res.statusCode != 200) err = body || "bad response"
       if (err && !util.isError(err)) err = new Error(err)
       if (err) return reject(err)
       resolve(body)
@@ -30,7 +30,7 @@ Manager.prototype.post = function (payload) {
   var self = this
   return Q.Promise(function (resolve, reject) {
     self.requester.post(payload, function (err, res, body) {
-      if (!err && res.statusCode != 200) err = body
+      if (!err && res.statusCode != 200) err = body || "bad response"
       if (err && !util.isError(err)) err = new Error(err)
       if (err) return reject(err)
       resolve(body)
