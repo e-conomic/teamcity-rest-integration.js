@@ -39,6 +39,7 @@ Manager.prototype.post = function (payload) {
 }
 
 var extensions = [
+  {prefix: "add", module: require("./lib/add")},
   {prefix: "cancel", module: require("./lib/cancel")},
   {prefix: "lookup", module: require("./lib/lookup")}
 ]

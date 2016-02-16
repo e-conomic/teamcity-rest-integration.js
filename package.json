@@ -12,7 +12,8 @@
     "canned-teamcity-responses.js": "e-conomic/canned-teamcity-responses.js",
     "lodash": "^4.4.0",
     "q": "^1.4.1",
-    "request": "^2.69.0"
+    "request": "^2.69.0",
+    "teamcity-properties.js": "e-conomic/teamcity-properties.js"
   },
   "devDependencies": {
     "istanbul": "^0.4.2",
