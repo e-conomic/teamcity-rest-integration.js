@@ -25,5 +25,17 @@ describe("teamcity-rest-integration.js#add", function () {
         .must.resolve.to.eql(tc.httpAuth.app.rest.buildQueue.queuedResponse())
         .then(done)
     })
+
+    it("should transform parameters", function () {
+      stub
+        .post("/httpAuth/app/rest/buildQueue", {
+          buildType: {id: "foo"},
+          branchName: "1/head",
+          properties: {"property": [{"name": "foo", "value": "bar"}]}
+        })
+        .reply(200, tc.httpAuth.app.rest.buildQueue.queuedResponse())
+      return T.add.buildToQueue("foo", "1/head", {foo: "bar"})
+        .then(done)
+    })
   })
 })
