@@ -1,6 +1,8 @@
 "use strict";
+var _ = require("lodash")
 var expect = require("must")
 var nock = require("nock")
+var s = require("util").format
 var tri = require("../")
 
 var ROOTURL = "https://teamcity.url"
@@ -72,5 +74,32 @@ describe("Manager", function () {
       return T.post({url: "foo"})
         .must.reject.to.error()
     })
+  })
+
+  var methods = ["add.buildToQueue", "cancel.stopBuild", "cancel.removeBuild",
+                 "lookup.allQueuedBuilds", "lookup.allRunningBuilds",
+                 "lookup.build", "lookup.buildConfiguration",
+                 "lookup.queuedBuilds", "lookup.runningBuilds",
+                 "resolve.dependencies", "resolve.vcsRoots"
+  ]
+  methods.forEach(function (meth) {
+    it(s("should expose %s", meth), function () {
+      expect(_.get(T, meth), s("%s not exposed", meth))
+        .to.be.a.function()
+    })
+  })
+
+  it("should not clobber namespaces", function () {
+    expect(T.add).to.not.equal(T.resolve)
+  })
+
+  it("should only build its methods once", function () {
+    var counter = 0
+    T.on("registered", function (r) {
+      counter++
+    })
+    T.add
+    T.add
+    expect(counter, "Wrong number of calls").to.eql(1)
   })
 })

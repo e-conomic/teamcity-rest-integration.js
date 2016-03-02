@@ -1,4 +1,6 @@
 "use strict";
+var EventEmitter = require("events").EventEmitter
+var _ = require("lodash")
 var Q = require("q")
 var request = require("request")
 var url = require("url")
@@ -12,6 +14,9 @@ var util = require("util")
  */
 var Manager = function (opts) {
   this.requester = requester(opts.url, opts.user, opts.password)
+  var eventEmitter = new EventEmitter()
+  this.emit = eventEmitter.emit.bind(eventEmitter)
+  this.on = eventEmitter.on.bind(eventEmitter)
 }
 
 Manager.prototype.get = function (href) {
@@ -45,14 +50,24 @@ var extensions = [
   {prefix: "resolve", module: require("./lib/resolve")}
 ]
 extensions.forEach(function (data) {
-  Object.defineProperty(Manager.prototype, data.prefix, {
+  var prefix = data.prefix
+  var module = data.module
+  Object.defineProperty(Manager.prototype, prefix, {
     get: function () {
       var self = this
-      var f = {}
-      for (var fName in data.module) {
-        f[fName] = data.module[fName].bind(self)
+      var propertyName = "_" + prefix
+      if (!self[propertyName]) {
+        self.emit("registered", data.prefix)
+        self[propertyName] = {}
+        for (var name in module) {
+          var func = module[name]
+          if (_.isFunction(func))
+            self[propertyName][name] = func.bind(self)
+          else
+            self[propertyName][name] = func
+        }
       }
-      return f
+      return self[propertyName]
     },
     enumerable: false,
     configurable: true
